@@ -1,6 +1,7 @@
 from typing import Callable, NoReturn
 
 from .event import Event
+from .consts import Key
 
 import threading
 import msvcrt
@@ -8,35 +9,35 @@ import time
 
 __ALLOWED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{};:'\",.<>/?\\|`~ \b"
 __SPECIAL = {
-    b'\r': "ENTER",
-    b'\x08': "BACKSPACE",
-    b'\t': "TAB",
-    b'\x1b': "ESCAPE",
-    b' ': "SPACE",
-    b'\xe0': "PREFIX",
-    b'H': "ARROW_UP",
-    b'P': "ARROW_DOWN",
-    b'K': "ARROW_LEFT",
-    b'M': "ARROW_RIGHT",
-    b'R': "INSERT",
-    b'S': "DELETE",
-    b'G': "HOME",
-    b'O': "END",
-    b'I': "PAGE_UP",
-    b'Q': "PAGE_DOWN",
-    b'\x00': "PREFIX_FUNC",
-    b';': "F1",
-    b'<': "F2",
-    b'=': "F3",
-    b'>': "F4",
-    b'?': "F5",
-    b'@': "F6",
-    b'A': "F7",
-    b'B': "F8",
-    b'C': "F9",
-    b'D': "F10",
-    b'\x85': "F11",
-    b'\x86': "F12",
+    b'\r': Key.ENTER,
+    b'\x08': Key.BACKSPACE,
+    b'\t': Key.TAB,
+    b'\x1b': Key.ESCAPE,
+    b' ': Key.SPACE,
+    b'\xe0': Key.PREFIX,
+    b'H': Key.ARROW_UP,
+    b'P': Key.ARROW_DOWN,
+    b'K': Key.ARROW_LEFT,
+    b'M': Key.ARROW_RIGHT,
+    b'R': Key.INSERT,
+    b'S': Key.DELETE,
+    b'G': Key.HOME,
+    b'O': Key.END,
+    b'I': Key.PAGE_UP,
+    b'Q': Key.PAGE_DOWN,
+    b'\x00': Key.PREFIX_FUNC,
+    b';': Key.F1,
+    b'<': Key.F2,
+    b'=': Key.F3,
+    b'>': Key.F4,
+    b'?': Key.F5,
+    b'@': Key.F6,
+    b'A': Key.F7,
+    b'B': Key.F8,
+    b'C': Key.F9,
+    b'D': Key.F10,
+    b'\x85': Key.F11,
+    b'\x86': Key.F12,
 }
 
 # CTRL + ... combinations
@@ -93,7 +94,6 @@ class KeyboardEngine:
 
         self.input_thread.start()
         self.main_thread.start()
-
 
         while self.running and suspense:
             try:
@@ -160,5 +160,3 @@ class KeyboardEngine:
 
             elapsed = time.perf_counter() - start
             time.sleep(max(0, frame_duration - elapsed))
-
-
