@@ -163,13 +163,12 @@ SPECIAL = {
     b'\x86': Key.F12,
 }
 
+# exclude combinations that could cause problems
+exclude = { 'C', 'V', 'S', 'H', '[', 'M' }
+
 # CTRL + ... combinations
 for i in range(1, 27):
-    SPECIAL[bytes([i])] = f"CTRL_{chr(64 + i)}"
+    letter = chr(64 + i)
 
-# Not supported:
-# CTRL + [ (works as ESCAPE key)
-# CTRL + S (ignored)
-# CTRL + C (ignored)
-# CTRL + V (could be ignored)
-# CTRL + H (works as BACKSPACE key)
+    if letter not in exclude:
+        SPECIAL[ bytes([i]) ] = f"CTRL_{letter}"
