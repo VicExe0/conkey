@@ -23,8 +23,12 @@ def mainloop(event: Event):
     if event.keyDown():
         print(f"Key pressed: {event.key}")
 
-    if event.key == Key.ESCAPE:
-        return -1  # stops the engine
+        if event.key == Key.ESCAPE:
+            event.stop() # stops the engine
+                         # You can also return -1
+    
+    if event.frame % 30 == 0:
+        print("0.5s have passed")
 
 engine = KeyboardEngine()
 engine.start(mainloop)
