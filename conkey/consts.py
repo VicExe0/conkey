@@ -129,3 +129,47 @@ class Key(StrEnum):
     PIPE = "|"
     BACKTICK = "`"
     TILDE = "~"
+
+ALLOWED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{};:'\",.<>/?\\|`~ \b"
+SPECIAL = {
+    b'\r': Key.ENTER,
+    b'\x08': Key.BACKSPACE,
+    b'\t': Key.TAB,
+    b'\x1b': Key.ESCAPE,
+    b' ': Key.SPACE,
+    b'\xe0': Key.PREFIX,
+    b'H': Key.ARROW_UP,
+    b'P': Key.ARROW_DOWN,
+    b'K': Key.ARROW_LEFT,
+    b'M': Key.ARROW_RIGHT,
+    b'R': Key.INSERT,
+    b'S': Key.DELETE,
+    b'G': Key.HOME,
+    b'O': Key.END,
+    b'I': Key.PAGE_UP,
+    b'Q': Key.PAGE_DOWN,
+    b'\x00': Key.PREFIX_FUNC,
+    b';': Key.F1,
+    b'<': Key.F2,
+    b'=': Key.F3,
+    b'>': Key.F4,
+    b'?': Key.F5,
+    b'@': Key.F6,
+    b'A': Key.F7,
+    b'B': Key.F8,
+    b'C': Key.F9,
+    b'D': Key.F10,
+    b'\x85': Key.F11, # Will probably be ignored due to fullscreen mode toggling on console
+    b'\x86': Key.F12,
+}
+
+# CTRL + ... combinations
+for i in range(1, 27):
+    SPECIAL[bytes([i])] = f"CTRL_{chr(64 + i)}"
+
+# Not supported:
+# CTRL + [ (works as ESCAPE key)
+# CTRL + S (ignored)
+# CTRL + C (ignored)
+# CTRL + V (could be ignored)
+# CTRL + H (works as BACKSPACE key)
