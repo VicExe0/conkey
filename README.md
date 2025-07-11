@@ -12,7 +12,7 @@ Easy and simple console keyboard handler and render engine for Python console ap
 
 ## Installation
 
-Copy the `conkey.py` module into your project.
+Copy the `conkey` module into your project.
 
 ## Usage
 
