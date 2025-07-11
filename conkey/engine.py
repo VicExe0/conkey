@@ -7,8 +7,8 @@ import threading
 import msvcrt
 import time
 
-__ALLOWED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{};:'\",.<>/?\\|`~ \b"
-__SPECIAL = {
+_ALLOWED = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+[]{};:'\",.<>/?\\|`~ \b"
+_SPECIAL = {
     b'\r': Key.ENTER,
     b'\x08': Key.BACKSPACE,
     b'\t': Key.TAB,
@@ -36,13 +36,13 @@ __SPECIAL = {
     b'B': Key.F8,
     b'C': Key.F9,
     b'D': Key.F10,
-    b'\x85': Key.F11,
+    b'\x85': Key.F11, # Will probably be ignored due to fullscreen mode toggling on console
     b'\x86': Key.F12,
 }
 
 # CTRL + ... combinations
 for i in range(1, 27):
-    __SPECIAL[bytes([i])] = f"CTRL_{chr(64 + i)}"
+    _SPECIAL[bytes([i])] = f"CTRL_{chr(64 + i)}"
 
 # Not supported:
 # CTRL + [ (works as ESCAPE key)
@@ -54,13 +54,13 @@ def _getCharKey( key ) -> str:
     try:
         char = key.decode()
 
-        if char in __ALLOWED:
+        if char in _ALLOWED:
             return char
         
     except UnicodeDecodeError:
         pass
 
-    return __SPECIAL.get(key, None)
+    return _SPECIAL.get(key, None)
 
 
 class KeyboardEngine:
@@ -125,7 +125,7 @@ class KeyboardEngine:
             if KEY in ( b'\x00', b'\xe0' ):
                 SKEY = msvcrt.getch()
 
-                key_name = __SPECIAL.get(SKEY, None)
+                key_name = _SPECIAL.get(SKEY, None)
 
                 with self.lock:
                     self.key = key_name
